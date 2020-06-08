@@ -1,0 +1,45 @@
+<!--
+ * @Author: reol
+ * @Date: 2020-06-08 17:09:23
+ * @LastEditors: reol
+ * @LastEditTime: 2020-06-08 17:22:28
+ * @FilePath: \vue\axios.html
+--> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"> </script>
+
+
+</head>
+<body>
+    <div id="app">
+        <button @click="laugh">点击显示笑话</button>
+        <p> {{joke}} </p>
+    </div>
+    
+</body>
+
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                joke:""
+            },
+            methods: {
+                laugh:function() {
+                    let that = this
+                    axios.get("https://autumnfish.cn/api/joke/list?num=1")
+                    .then(function(response) {
+                        that.joke = response.data.jokes[0]
+                    })
+                }
+            },
+        })
+    </script>
+
+</html>
