@@ -1,0 +1,44 @@
+<!--
+ * @Author: reol
+ * @Date: 2020-06-08 10:46:55
+ * @LastEditors: reol
+ * @LastEditTime: 2020-06-08 11:01:14
+ * @FilePath: \vue\v-show.html
+--> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <button @click="change">just</button><br>
+        <img v-show="state" src="img/wallhaven-r2o9lm_1920x1080.png" alt="" width="192px" height="108px">
+        <button @click="add">just</button><br>
+        <img v-if="age>18" src="img/wallhaven-r2o9lm_1920x1080.png" alt="" width="192px" height="108px">
+        
+    </div>
+</body>
+
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                state:true,
+                age:5
+            },
+            methods: {
+                change: function() {
+                    this.state = !this.state
+                },
+                add: function() {
+                    this.age++;
+                }
+            },
+        })
+    </script>
+
+</html>

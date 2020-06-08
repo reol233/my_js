@@ -1,0 +1,33 @@
+<!--
+ * @Author: reol
+ * @Date: 2020-06-08 15:00:11
+ * @LastEditors: reol
+ * @LastEditTime: 2020-06-08 15:04:40
+ * @FilePath: \vue\v-model.html
+--> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <button >click</button>
+        <input type="text" v-model="message">
+        <h2> {{message}} </h2>
+
+    </div>
+    
+</body>
+<script>
+    var app = new Vue({
+        el:"#app",
+        data:{
+            message:"just monika"
+        }
+    })
+</script>
+</html>

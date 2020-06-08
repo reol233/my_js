@@ -1,0 +1,52 @@
+<!--
+ * @Author: reol
+ * @Date: 2020-06-08 11:28:36
+ * @LastEditors: reol
+ * @LastEditTime: 2020-06-08 11:48:05
+ * @FilePath: \vue\v-bind.html
+--> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+    <style>
+        .active{
+            border: 1px solid palevioletred ;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h2> {{just}} </h2>
+        <img v-bind:src="imgSrc" v-bind:class="isActive?'active':''" @click="change" width="192px" height="108px" >
+
+        <img v-bind:src="imgSrc" v-bind:class={active:isActive} @click="change" width="192px" height="108px" >
+
+        <img :src="imgSrc" :class= @click="change" width="192px" height="108px" >
+
+
+    </div>    
+</body>
+
+    <script>
+
+        var app = new Vue({
+            el:"#app",
+            data:{
+                just:"monika",
+                imgSrc: "img/wallhaven-r2o9lm_1920x1080.png",
+                isActive: false
+            },
+            methods: {
+                change: function() {
+                    this.isActive = !this.isActive
+                }
+            },
+        })
+
+    </script>
+
+</html>

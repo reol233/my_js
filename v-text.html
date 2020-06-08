@@ -1,0 +1,39 @@
+<!--
+ * @Author: reol
+ * @Date: 2020-06-08 09:20:34
+ * @LastEditors: reol
+ * @LastEditTime: 2020-06-08 09:44:02
+ * @FilePath: \vue\v-text.html
+--> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    
+    <div id="app">
+        <h2>{{ message }} asuka</h2>
+
+        <h2 v-text="message + '!!!!'">monika</h2>
+        <h2 v-text="info"></h2>
+    </div>
+
+</body>
+
+<script>
+    var app = new Vue({
+        el:"#app",
+        data:{
+            
+                message:"just monika",
+                info:"this is monika"
+            
+        }
+    })
+</script>
+
+</html>

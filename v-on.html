@@ -1,0 +1,43 @@
+<!--
+ * @Author: reol
+ * @Date: 2020-06-08 09:44:34
+ * @LastEditors: reol
+ * @LastEditTime: 2020-06-08 10:00:21
+ * @FilePath: \vue\v-on.html
+--> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        <p>{{ just }}</p>
+        <button v-on:click="doSomething">just</button>
+        <button @click="changeSomething">just </button>
+    </div>
+    
+</body>
+<script>
+    var app = new Vue({
+        el:"#app",
+        data:{
+            just:"monika"
+        },
+        methods: {
+            doSomething:function() {
+                alert("just monika")
+            },
+            changeSomething:function() {
+            	alert("just asuka")
+            	this.just  = "asuka"
+
+            }
+        }
+    })
+</script>
+</html>
