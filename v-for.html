@@ -1,0 +1,62 @@
+<!--
+ * @Author: reol
+ * @Date: 2020-06-08 14:39:35
+ * @LastEditors: reol
+ * @LastEditTime: 2020-06-08 14:57:47
+ * @FilePath: \vue\v-for.html
+--> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <button @click="add">add</button>
+        <button @click="sub">sub</button>
+        <ul>
+            <li v-for="(item,index) in list">
+            this is monika  {{item}}
+            </li>
+        </ul>
+
+        <h2 v-for="item in dict">
+            {{ item.name }}
+        </h2>
+    </div>
+    
+    
+</body>
+
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                list:[
+                    "monika",
+                    "just",
+                    "asuka",
+                ],
+                dict:[
+                    {name:"monika"},
+                    {name:"asuka"},
+                    {name:"just"},
+                ]
+            },
+            methods: {
+                add:function() {
+                    this.list.push('just')
+                    this.dict.push({name:"monika"})
+                },
+                sub:function() {
+                    this.list.pop('monika')
+                }
+            },
+
+        })
+    </script>
+
+</html>
