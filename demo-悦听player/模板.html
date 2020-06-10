@@ -1,0 +1,185 @@
+<!--
+ * @Author: reol
+ * @Date: 2020-06-09 14:28:23
+ * @LastEditors: reol
+ * @LastEditTime: 2020-06-10 09:05:12
+ * @FilePath: \demo-悦听player\模板.html
+--> 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>悦听player</title>
+  <!-- 样式 -->
+  <link rel="stylesheet" href="./css/index.css">
+  <script src="js/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"> </script>
+  <!-- <script src="js/axios.min.js"></script> -->
+
+</head>
+
+<body>
+  <div class="wrap" id="app">
+    <!-- 播放器主体区域 -->
+    <div class="play_wrap" id="player">
+      <div class="search_bar">
+        <img src="images/player_title.png" alt="" />
+        <!-- 搜索歌曲 -->
+        <input type="text" autocomplete="off"  v-model="song" v-on:keyup.enter="fetchSongsList" />
+        <a @click="fetchSongsList"></a>
+      </div>
+      <div class="center_con">
+        <!-- 搜索歌曲列表 -->
+        <div class='song_wrapper'>
+          <ul class="song_list">
+            <li v-for="item in songList">
+              <a href="javascript:;" @click="playSong(item.id)" ></a> 
+              <b> {{item.name}} </b> 
+              <span v-show="item.mvid!=0">
+                  <i @click="fetchMV(item.mvid)"></i>
+                </span>
+            </li>
+          </ul>
+          <img src="images/line.png" class="switch_btn" alt="">
+        </div>
+        <!-- 歌曲信息容器 -->
+        <div class="player_con" :class="{playing:isPlaying}">
+          <img src="images/player_bar.png" class="play_bar" />
+          <!-- 黑胶碟片 -->
+          <img src="images/disc.png" class="disc autoRotate" />
+          <img :src="picUrl" class="cover autoRotate" />
+        </div>
+        <!-- 评论容器 -->
+        <div class="comment_wrapper">
+          <h5 class='title'>热门留言</h5>
+          <div class='comment_list'>
+            <dl v-for="item in hotComments">
+              <dt><img :src="item.user.avatarUrl" alt=""></dt>
+              <dd class="name"> {{item.user.nickname}} </dd>
+              <dd class="detail">
+                {{ item.content }}
+              </dd>
+            </dl>
+          </div>
+          <img src="images/line.png" class="right_line">
+        </div>
+      </div>
+      <div class="audio_con">
+        <audio ref='audio':src="mySongUrl"  controls autoplay loop class="myaudio"></audio>
+      </div>
+      <div class="video_con" v-show="isShow" style="display: none;">
+        <video :src="MvUrl" controls="controls"></video>
+        <!-- <a href="javascript:;" @click="quitMv">x</a> -->
+        <div class="mask" @click="quitMv"></div>
+      </div>
+    </div>
+  </div>
+</body>
+    <script>
+
+        var app = new Vue({
+            el:"#app",
+            data: {
+                song:"团子大家族",
+                songList:[
+
+                ],
+                mvid:"",
+                mySongUrl:"",
+                // myPlay:false,
+                // myPause:true,
+                isPlaying:false,
+                picUrl:"",
+                hotComments:[
+
+                ],
+                MvUrl:"",
+                isShow:false,
+
+            },
+            methods: {
+                fetchSongsList:function() {
+                    let that = this
+
+                    axios.get("https://autumnfish.cn/search?keywords=" + this.song)
+                    .then(res => {
+                        // console.log(res)
+                        that.songList = res.data.result.songs
+                        // console.log(that.songList);
+                        
+                    },
+                    err => {
+
+                    })
+                },
+                fetchSong:function(myid) {
+                    let that = this
+                    axios.get("https://autumnfish.cn/song/url?id=" + myid)
+                    .then(res => {
+                        // console.log(res)
+                        that.mySongUrl = res.data.data[0].url
+                        // console.log(that.mySongUrl)
+
+                        let myAudio = document.querySelector(".myaudio")
+                        myAudio.onpause = function() {
+                            that.isPlaying = false
+                        }
+                        myAudio.onplaying = function() {
+                            that.isPlaying = true
+                        }                        
+                        
+                    })
+                },
+                fetchDetials:function(myid) {
+                    let that = this
+                    axios.get("https://autumnfish.cn/song/detail?ids=" + myid)
+                    .then(res => {
+                        // console.log("just monika")
+                        that.picUrl = res.data.songs[0].al.picUrl
+                        // console.log(that.picUrl);
+                        // console.log(res)
+                    })
+                },
+                fetchHotComments:function(myid) {
+                    let that = this
+                    axios.get("https://autumnfish.cn/comment/hot?type=0&id=" + myid)
+                    .then(res => {
+                        // console.log(res);
+                        that.hotComments = res.data.hotComments
+                        // console.log(that.hotComments);
+                        
+                    })
+                },
+                fetchMV:function(mvid) {
+                    let that = this
+                    axios.get("https://autumnfish.cn/mv/url?id=" + mvid)
+                    .then(res => {
+                        // console.log(res);
+                        that.MvUrl = res.data.data.url
+                        that.isShow = true
+                        // console.log(that.MvUrl);
+                        let myAudio = document.querySelector(".myaudio")
+                        myAudio.pause()
+                        
+                    })
+                },
+                playSong:function(myid) {
+                    // this.myPlay = true
+                    this.isPlaying = true
+                    this.fetchSong(myid)
+                    this.fetchDetials(myid)
+                    this.fetchHotComments(myid)
+                    // this.fetchMV(myid)
+                },
+                quitMv:function() {
+                    this.isShow = false
+                }
+
+            },
+        })
+
+    </script>
+</html>
